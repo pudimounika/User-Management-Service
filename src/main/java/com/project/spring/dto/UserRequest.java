@@ -1,0 +1,4 @@
+package com.project.spring.dto;
+
+public class UserRequest {
+}
