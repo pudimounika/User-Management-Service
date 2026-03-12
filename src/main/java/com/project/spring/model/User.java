@@ -1,5 +1,7 @@
 package com.project.spring.model;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Email;
 @Entity
 @Table(name="users")
 public class User {
@@ -8,9 +10,11 @@ public class User {
     private Long id;
 
     @Column(nullable = false)
+    @NotBlank(message = "Name cannot be empty")
     private String name;
 
     @Column(nullable=false,unique=true)
+    @Email(message = "Email should be vaild")
     private String email;
 
     public User(){
