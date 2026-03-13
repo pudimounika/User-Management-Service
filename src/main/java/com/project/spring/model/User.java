@@ -2,46 +2,22 @@ package com.project.spring.model;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Email;
+import lombok.*;
 @Entity
 @Table(name="users")
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class User {
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long id;
 
     @Column(nullable = false)
-    @NotBlank(message = "Name cannot be empty")
     private String name;
 
     @Column(nullable=false,unique=true)
-    @Email(message = "Email should be vaild")
     private String email;
-
-    public User(){
-    }
-    public User(String name,String email) {
-        this.name = name;
-        this.email=email;
-
-    }
-
-    public Long getId(){
-        return id;
-    }
-    public String getName(){
-        return name;
-    }
-    public String getEmail(){
-        return email;
-    }
-    public void setId(Long id){
-        this.id = id;
-    }
-
-    public void setName(String name){
-        this.name = name;
-    }
-    public void setEmail(String email) {
-        this.email = email;
-    }
 }
+
