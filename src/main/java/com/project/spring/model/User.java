@@ -19,5 +19,9 @@ public class User {
 
     @Column(nullable=false,unique=true)
     private String email;
+
+    @ManyToOne
+    @JoinColumn(name="role_id")
+    private Role role;
 }
 

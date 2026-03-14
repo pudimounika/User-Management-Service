@@ -9,5 +9,7 @@ public class UserRequest {
 
     @Email(message="Email should be valid")
     private String email;
+
+    private Long roleId;
 }
 

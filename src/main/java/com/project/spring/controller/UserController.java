@@ -51,4 +51,10 @@ public class UserController {
          userService.deleteUser(id);
     }
 
+    @Operation(summary = "Search user")
+    @GetMapping("/search")
+    public Page<UserResponse> search(@RequestParam String name,Pageable pageable) {
+        return userService.searchUsers(name,pageable);
+    }
+
 }

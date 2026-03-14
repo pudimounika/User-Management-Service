@@ -1,5 +1,8 @@
 package com.project.spring.service;
 import java.util.List;
+
+import com.project.spring.model.Role;
+import com.project.spring.repository.RoleRepository;
 import org.springframework.stereotype.Service;
 import com.project.spring.model.User;
 import com.project.spring.repository.UserRepository;
@@ -14,22 +17,25 @@ import org.springframework.data.domain.Pageable;
 @Service
 public class UserService {
     private final UserRepository userRepository;
-    public UserService(UserRepository userRepository){
+    private final RoleRepository roleRepository;
+    public UserService(UserRepository userRepository,RoleRepository roleRepository){
         this.userRepository = userRepository;
+        this.roleRepository = roleRepository;
     }
     public UserResponse saveUser(UserRequest request) {
         User user = new User();
         user.setName(request.getName());
         user.setEmail(request.getEmail());
+        Role role = roleRepository.findById(request.getRoleId())
+                .orElseThrow(() -> new RuntimeException("Role not found"));
+        user.setRole(role);
         User savedUser = userRepository.save(user);
         return mapToResponse(savedUser);
     }
 
     public Page<UserResponse> getAllUsers(Pageable pageable) {
-
         return userRepository.findAll(pageable)
                 .map(this::mapToResponse);
-
     }
 
 
@@ -62,7 +68,14 @@ public class UserService {
         response.setId(user.getId());
         response.setName(user.getName());
         response.setEmail(user.getEmail());
+        if(user.getRole() != null){
+            response.setRoleName(user.getRole().getName());
+        }
         return response;
     }
 
+    public Page<UserResponse> searchUsers(String name,Pageable pageable){
+     return userRepository.findByNameContainingIgnoreCase(name, pageable)
+             .map(this::mapToResponse);
+    }
 }
