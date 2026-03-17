@@ -3,6 +3,7 @@ import java.util.List;
 
 import com.project.spring.model.Role;
 import com.project.spring.repository.RoleRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.project.spring.model.User;
 import com.project.spring.repository.UserRepository;
@@ -12,12 +13,17 @@ import com.project.spring.dto.UserResponse;
 import java.util.stream.Collectors;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @Service
 public class UserService {
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
+
+    private BCryptPasswordEncoder encoder=new BCryptPasswordEncoder(12);
+
+
     public UserService(UserRepository userRepository,RoleRepository roleRepository){
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
@@ -26,6 +32,8 @@ public class UserService {
         User user = new User();
         user.setName(request.getName());
         user.setEmail(request.getEmail());
+        user.setPassword(encoder.encode(request.getPassword()));
+
         Role role = roleRepository.findById(request.getRoleId())
                 .orElseThrow(() -> new RuntimeException("Role not found"));
         user.setRole(role);

@@ -17,6 +17,7 @@ import org.springframework.data.domain.Pageable;
 @Tag(name="User API",description = "User management operations")
 public class UserController {
     private final UserService userService;
+
     public UserController(UserService userService){
         this.userService = userService;
     }

@@ -14,14 +14,6 @@ public class GlobalExceptionHandler {
      public ResponseEntity<String> handleUserNotFound(UserNotFoundException ex) {
           return new ResponseEntity<>(ex.getMessage(),HttpStatus.NOT_FOUND);
     }
-//    @ExceptionHandler(MethodArgumentNotValidException.class)
-//    public ResponseEntity<String> handleValidationException(MethodArgumentNotValidException ex){
-//        String message = ex.getBindingResult()
-//        .getFieldError()
-//                .getDefaultMessage();
-//
-//        return new ResponseEntity<>(message,HttpStatus.BAD_REQUEST);
-//    }
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<Map<String,String>> handleValidationException(
             MethodArgumentNotValidException ex) {
